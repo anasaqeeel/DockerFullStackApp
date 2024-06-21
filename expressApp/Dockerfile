@@ -1,0 +1,9 @@
+FROM node:16
+WORKDIR /app
+COPY ./package*.json ./
+#TO INSTALL DEPENDENCIES 
+RUN npm install
+#SOURCE CODE KO COPY FROM THIS PROJ TO DOCKER
+COPY . .
+EXPOSE 3000 
+CMD ["npm", "run", "dev"]

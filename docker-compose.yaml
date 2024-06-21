@@ -1,0 +1,53 @@
+version: '3' 
+services:
+
+  front:
+    build: 
+      context: './my-react-app'
+      dockerfile: 'Dockerfile'
+    ports:
+      - 3000:3000
+    container_name: 'react-container'
+    #hot relod
+    environment:
+      - WATCHPACK_POLLING=true
+    networks:
+      - docker-compose-network
+    volumes:
+      - ./my-react-app:/app
+    depends_on:
+      - backend
+  
+  backend:
+    build: 
+      context: './expressApp'
+      dockerfile: 'Dockerfile'
+    ports:
+      - 5500:5500
+    container_name: 'express-container'
+    networks:
+      - docker-compose-network
+    volumes:
+      - ./expressApp:/app
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo
+    ports:
+      - 27017:27017
+    container_name: 'mongo-container'
+    networks:
+      - docker-compose-network
+    volumes:
+      - mongoData:/data/db 
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=0000
+      - MONGO_INITDB_DATABASE=mydb
+      # a better way is to add these env var in gitignore so these cred does not get exposed! 
+
+networks:
+  docker-compose-network:
+volumes:
+  mongoData:
