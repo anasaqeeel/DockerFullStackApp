@@ -3,12 +3,13 @@ services:
 
   front:
     build: 
+    # path to your source code
       context: './my-react-app'
       dockerfile: 'Dockerfile'
     ports:
       - 3000:3000
     container_name: 'react-container'
-    #hot relod
+    #hot relod a better way 
     environment:
       - WATCHPACK_POLLING=true
     networks:
@@ -45,7 +46,8 @@ services:
       - MONGO_INITDB_ROOT_USERNAME=root
       - MONGO_INITDB_ROOT_PASSWORD=0000
       - MONGO_INITDB_DATABASE=mydb
-      # a better way is to add these env var in gitignore so these cred does not get exposed! 
+      # a better way is to add these env var in gitignore
+      # so these crediential does not get exposed! 
 
 networks:
   docker-compose-network:
